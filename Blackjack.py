@@ -76,10 +76,10 @@ def GameStart():
             
             while True:
                 Ask = input("That is not an option, try again")
-                if Ask == "Yes":
+                if Ask == "yes":
                     Player = True
                     break
-                if Ask == "No":
+                if Ask == "no":
                     Player = False 
                     break     
             
