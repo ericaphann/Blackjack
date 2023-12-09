@@ -40,13 +40,12 @@ def GameStart():
             return True
     
     #Check if hand is 21
-    def WinCheck(Hand_Value):
+    def Check21(Hand_Value):
         if Hand_Value == 21:
             print("You hit 21!")
             return True
 
     #Dealer Hand
-
     Dealer_Card = list(Random_Card())
     Dealer_Hand = Dealer_Card[2]
     print("Dealer:",Dealer_Card[0], "of", Dealer_Card[1])
@@ -60,7 +59,7 @@ def GameStart():
         Player_Hand += Name_Type_Value[2]
 
         #If 21, stop
-        if WinCheck(Player_Hand) == True:
+        if Check21(Player_Hand) == True:
             break
         #If bust, stop
         if BustCheck(Player_Hand) == True:
