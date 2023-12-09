@@ -48,6 +48,9 @@ def GameStart():
     #Dealer Hand
     Dealer_Card = list(Random_Card())
     Dealer_Hand = Dealer_Card[2]
+    #If dealer gets an Ace it will always be an 11 since it is the first card
+    if Dealer_Card[0] == "A":
+        Dealer_Card[1] = 11
     print("Dealer:",Dealer_Card[0], "of", Dealer_Card[1])
 
     #Player Hand
