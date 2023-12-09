@@ -2,6 +2,9 @@ import random
 
     #Game Start
 def GameStart():
+    Player_Status = "None"
+    Dealer_Status = "None"
+
     Player = True
 
     Cards = {"A": [11,1], "2":2, "3":3, "4":4, "5":5, "6":6, "7":7, "8":8, "9":9, "10":10, "J":10, "Q":10, "K":10}
@@ -45,12 +48,12 @@ def GameStart():
             print("You hit 21!")
             return True
 
-    #Dealer Hand
+    #Dealer Hand Start
     Dealer_Card = list(Random_Card())
     Dealer_Hand = Dealer_Card[2]
     #If dealer gets an Ace it will always be an 11 since it is the first card
     if Dealer_Card[0] == "A":
-        Dealer_Card[1] = 11
+        Dealer_Card[2] = 11
     print("Dealer:",Dealer_Card[0], "of", Dealer_Card[1])
 
     #Player Hand
@@ -84,5 +87,37 @@ def GameStart():
                 if Ask == "no":
                     Player = False 
                     break     
+
+    #Dealer Hand End
+    while Dealer_Hand < 16:
+        Dealer_Card = list(Random_Card())
+        #If the hand is small dealer will choose to make it worth 11
+        if Dealer_Card[0] == "A":
+            if (Dealer_Hand + 11) > 21:
+                Dealer_Card[2] = 1
+            else:
+                Dealer_Card[2] = 11
+        print("Dealer:",Dealer_Card[0], "of", Dealer_Card[1])
+        Dealer_Hand += Dealer_Card[2]
+    
+    print("User Total:", Player_Hand)
+    print("Dealer Total:", Dealer_Hand)
+    BustCheck(Dealer_Hand)
+
+    if Dealer_Hand > 21:
+        Dealer_Status = "Bust"
+        Player_Status = "Win"
+    if Player_Hand > 21:
+        Player_Status = "Bust"
+        Dealer_Status = "Win"
+    if Dealer_Hand > Player_Hand and Dealer_Hand <= 21:
+        Dealer_Status = "Win"
+        Player_Status = "Lose"
+    if Player_Hand > Dealer_Hand and Player_Hand <= 21:
+        Player_Status = "Win"
+        Dealer_Status = "Lose"
+
+    print("Dealer:", Dealer_Status)
+    print("Player:", Player_Status)
             
 GameStart()
