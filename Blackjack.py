@@ -7,6 +7,7 @@ def GameStart():
 
     Player = True
 
+    #Deck
     Cards = {"A": [11,1], "2":2, "3":3, "4":4, "5":5, "6":6, "7":7, "8":8, "9":9, "10":10, "J":10, "Q":10, "K":10}
 
     Card_Names = list(Cards.keys())
@@ -47,6 +48,25 @@ def GameStart():
         if Hand_Value == 21:
             print("You hit 21!")
             return True
+        
+    #Bet amount
+    #need to fix bet system
+    def Bet(amount):
+         #Currency
+        Player_Money = 100
+        Pot_Total = 0 
+        if (Player_Money - amount) >= 0:
+            Player_Money = Player_Money - amount
+            Pot_Total = Pot_Total + amount
+        else:
+            while True:
+                print("You can't bet that amount or else you will go negative!")
+                if (Player_Money - amount) >= 0:
+                    Player_Money = Player_Money - amount
+                    Pot_Total = Pot_Total + amount
+                    break
+        return Pot_Total 
+
 
     #Dealer Hand Start
     Dealer_Card = list(Random_Card())
@@ -63,6 +83,9 @@ def GameStart():
         Ace(Name_Type_Value)
         print("User:",Name_Type_Value[0], "of", Name_Type_Value[1])
         Player_Hand += Name_Type_Value[2]
+        Bet_Amount = int(input("How much do you want to bet?"))
+        print("Pot Total:", Bet(Bet_Amount))
+        
 
         #If 21, stop
         if Check21(Player_Hand) == True:
