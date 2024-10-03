@@ -51,21 +51,18 @@ def GameStart():
         
     #Bet amount
     #need to fix bet system
-    def Bet(amount):
-         #Currency
-        Player_Money = 100
-        Pot_Total = 0 
+    Player_Money = 1000
+    def Bet(amount, Player_Money):
+        #Currency 
         if (Player_Money - amount) >= 0:
-            Player_Money = Player_Money - amount
-            Pot_Total = Pot_Total + amount
+            total = Player_Money - amount
         else:
             while True:
                 print("You can't bet that amount or else you will go negative!")
                 if (Player_Money - amount) >= 0:
-                    Player_Money = Player_Money - amount
-                    Pot_Total = Pot_Total + amount
+                    total = Player_Money - amount
                     break
-        return Pot_Total 
+        return total
 
 
     #Dealer Hand Start
@@ -74,7 +71,9 @@ def GameStart():
     #If dealer gets an Ace it will always be an 11 since it is the first card
     if Dealer_Card[0] == "A":
         Dealer_Card[2] = 11
+    print("Total Money:", Player_Money)
     print("Dealer:",Dealer_Card[0], "of", Dealer_Card[1])
+    
 
     #Player Hand
     Player_Hand = 0
@@ -84,7 +83,7 @@ def GameStart():
         print("User:",Name_Type_Value[0], "of", Name_Type_Value[1])
         Player_Hand += Name_Type_Value[2]
         Bet_Amount = int(input("How much do you want to bet?"))
-        print("Pot Total:", Bet(Bet_Amount))
+        Bet_Total = Bet(Bet_Amount, Player_Money)
         
 
         #If 21, stop
@@ -139,8 +138,16 @@ def GameStart():
     if Player_Hand > Dealer_Hand and Player_Hand <= 21:
         Player_Status = "Win"
         Dealer_Status = "Lose"
+    if Player_Hand == Dealer_Hand and Player_Hand <= 21:
+        Player_Status = "Draw"
+        Dealer_Status = "Draw"
+    if Player_Status == "Win":
+        Player_Money = Player_Money + Bet_Total
+    if Player_Status == "Lose":
+        Player_Money = Player_Money - Bet_Total
 
     print("Dealer:", Dealer_Status)
     print("Player:", Player_Status)
+    print("Money:", Player_Money)
             
 GameStart()
