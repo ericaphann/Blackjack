@@ -1,7 +1,7 @@
 import random
 
     #Game Start
-def GameStart():
+def GameStart(Player_Money1):
     Player_Status = "None"
     Dealer_Status = "None"
 
@@ -51,18 +51,16 @@ def GameStart():
         
     #Bet amount
     #need to fix bet system
-    Player_Money = 1000
+    Player_Money = Player_Money1
     def Bet(amount, Player_Money):
         #Currency 
         if (Player_Money - amount) >= 0:
-            total = Player_Money - amount
+            return amount
         else:
-            while True:
+            if (Player_Money - amount) < 0:
                 print("You can't bet that amount or else you will go negative!")
-                if (Player_Money - amount) >= 0:
-                    total = Player_Money - amount
-                    break
-        return total
+                amount = 0
+                return amount
 
 
     #Dealer Hand Start
@@ -77,13 +75,15 @@ def GameStart():
 
     #Player Hand
     Player_Hand = 0
+    Bet_Total = 0
     while Player == True:
         Name_Type_Value = list(Random_Card())
         Ace(Name_Type_Value)
         print("User:",Name_Type_Value[0], "of", Name_Type_Value[1])
         Player_Hand += Name_Type_Value[2]
         Bet_Amount = int(input("How much do you want to bet?"))
-        Bet_Total = Bet(Bet_Amount, Player_Money)
+        Player_Money = Player_Money - Bet(Bet_Amount, Player_Money)
+        Bet_Total += Bet(Bet_Amount, Player_Money) * 2
         
 
         #If 21, stop
@@ -141,13 +141,20 @@ def GameStart():
     if Player_Hand == Dealer_Hand and Player_Hand <= 21:
         Player_Status = "Draw"
         Dealer_Status = "Draw"
+
     if Player_Status == "Win":
         Player_Money = Player_Money + Bet_Total
-    if Player_Status == "Lose":
-        Player_Money = Player_Money - Bet_Total
 
     print("Dealer:", Dealer_Status)
     print("Player:", Player_Status)
     print("Money:", Player_Money)
+    if Player_Money == 0:
+        Play_Again = input("Do you want to play again?")
+        if (Play_Again == "yes"):
+            GameStart(1000)
+    if Player_Money != 0:
+        Play_Again = input("Do you want to continue?")
+        if (Play_Again == "yes"):
+            GameStart(Player_Money)
             
-GameStart()
+GameStart(1000)
